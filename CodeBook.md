@@ -1,10 +1,10 @@
 # Code Book
 
-Description: provides 
+Structure:
 
-1. background information about the original dataset; 
-2. step-by-step description of the cleaning process and decisions taken and
-3. describes the variables in the resulting tidy dataset.
+1. Background information about the original dataset; 
+2. Step-by-step description of the cleaning process and decisions taken
+3. Description of the variables in the resulting tidy dataset.
 
 ## Background information
 
@@ -14,19 +14,19 @@ The Human Activity Recognition database has been created from the recordings of 
 
 ## Cleaning process
 
-**Step 1: Collect all parts of the experiment data in one continuous dataset:** the original data has been randomly partitioned into two sets - train data (70% of the volunteers) and test data (30%). Additionally, the Activity and Subject labels for each observation are provided in separate files. The first part of the R script combines all of these parts into a single dataset, used in the next steps.
+**Step 1: Collect all parts of the experiment data in one continuous dataset:** the original data has been randomly partitioned into two sets - train data (70% of the observations) and test data (30%). Additionally, the Activity and Subject labels for each observation are provided in separate files. The first part of the R script combines all of these parts into a single dataset, used in the next steps.
 
-**Step 2: Replace the Activity codes with descriptive names:** once all of the data has been put together, the coding (1-6) for each of the activities performed is replaced with the descriptive activity names provided in the dataset and listed above.
+**Step 2: Replace the Activity codes with descriptive names:** once all of the data has been put together, the coding (1-6) for each of the activities is replaced with the descriptive activity names provided in the data package and listed above.
 
-**Step 3: Extract only summary variables (mean and std) for further manipulation:** for the purpose of the project, we need only the variables containing the mean and standard deviation for each measurement. To this end only variables containing `mean()` and `std()` are selected. This ensures the presence of only one type of variables in the tidy data set, namely mean and standard deviation values of each measurement on each axis. Other variables containing `mean` (e.g. `fBodyGyro-meanFreq()-Z`) contain different data (e.g. mean frequency, not mean of the particular z-axis measurement) and therefore would violate the tidy data principle **Each type of observational unit forms a table.** For indepth discussion of the tidy data principles please refer to Hadley Wickham's [Tidy Data paper](http://vita.had.co.nz/papers/tidy-data.pdf).
+**Step 3: Extract only summary variables (mean and std) for further manipulation:** for the purpose of the project, we need only the variables containing the mean and standard deviation for each measurement. To this end only variables containing `mean()` and `std()` are selected. This ensures the presence of only one type of variables in the tidy data set, namely mean and standard deviation values of each measurement (on each axis where applicable). Other variables containing `mean` (e.g. `fBodyGyro-meanFreq()-Z`) contain different data (e.g. mean frequency, not mean of the particular z-axis measurement) and therefore would violate the tidy data principle **Each type of observational unit forms a table.** For indepth discussion of the tidy data principles please refer to Hadley Wickham's [Tidy Data paper](http://vita.had.co.nz/papers/tidy-data.pdf).
 
 **Step 4: Create descriptive variable names for each of the variables in the subset:** for the purpose of better human readability the following 3 steps are taken: 
 
-1. expand any abbreviations into full words, e.g. `t` -> `Time Signals`; `Acc` -> `Acceleration`, `Gyro` -> `Velocity` (as the measurement taken by the Gyroscope is 3-axial angular velocity); '-X' -> `Xaxis`, etc. ;
+1. expand any abbreviations into full words, e.g. `t` -> `TimeSignals`; `Acc` -> `Acceleration`, `Gyro` -> `Velocity` (as the measurement taken by the Gyroscope is *3-axial angular velocity*); '-X' -> `Xaxis`, etc.;
 2. due to the resulting length of the variables CamelCase is used to increase readability;
 3. illegal characters (e.g. `()`) and coding mistakes in the original dataset, e.g. (`BodyBody`, instead of `Body`) have been removed. 
 
-**Step 5: Create a new tidy dataset with averages of the selected summary variables for each Subject/Activity pair and write it into tidy.txt:** for the final averaging the variables is used `ddply` in combination with `numcolwise`. The resulting dataset has 180 rows (30 subjects * 6 activities), i.e. each observation forms a row, and 68 variables (the ID pair + 66 measurement averages), i.e. each variable forms a column. As discussed in **Step 3** the subsetting of the original dataset follows the principle that a table/dataset should contain exactly one type of observational unit. The resulting file `tidy.txt` can be found in the working directory.
+**Step 5: Create a new tidy dataset with averages of the selected summary variables for each Subject/Activity pair and write it into tidy.txt:** for the final averaging the variables is used `ddply` in combination with `numcolwise`. The resulting dataset has 180 rows (30 subjects * 6 activities), i.e. each observation forms a row, and 68 variables (the ID pair + 66 measurement averages), i.e. each variable forms. As discussed in **Step 3** the subsetting of the original dataset follows the principle that a table/dataset should contain exactly one type of observational unit. According to the above we consider this a tidy dataset and after executing the R script it will be stored in `tidy.txt` file in your working directory.
 
 ## Variable descriptions
 
@@ -60,4 +60,4 @@ These signals were used to estimate variables of the feature vector for each pat
 The tidy dataset contains **average values (means)** of the following variables for each of these signals (for each axis of these signals where relevant):
 
 - MeanValue
-- StandardDeviation
+- StandardDeviation.
